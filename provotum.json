@@ -1,0 +1,97 @@
+[
+  {
+    "name"        : "node1",
+    "cwd"         : ".",
+    "script"      : "app.js",
+    "log_date_format"   : "YYYY-MM-DD HH:mm Z",
+    "merge_logs"    : false,
+    "watch"       : false,
+    "exec_interpreter"  : "node",
+    "exec_mode"     : "fork_mode",
+    "env":
+    {
+      "NODE_ENV"    : "production",
+      "RPC_HOST"    : "localhost",
+      "RPC_PORT"    : "8501",
+      "INSTANCE_NAME"   : "node1",
+      "WS_SERVER"     : "http://localhost:3002",
+      "WS_SECRET"     : "tabequals4",
+    }
+  },
+  {
+    "name"        : "node2",
+    "cwd"         : ".",
+    "script"      : "app.js",
+    "log_date_format"   : "YYYY-MM-DD HH:mm Z",
+    "merge_logs"    : false,
+    "watch"       : false,
+    "exec_interpreter"  : "node",
+    "exec_mode"     : "fork_mode",
+    "env":
+    {
+      "NODE_ENV"    : "production",
+      "RPC_HOST"    : "localhost",
+      "RPC_PORT"    : "8502",
+      "INSTANCE_NAME"   : "node2",
+      "WS_SERVER"     : "http://localhost:3002",
+      "WS_SECRET"     : "tabequals4",
+    }
+  },
+  {
+    "name"        : "node3",
+    "cwd"         : ".",
+    "script"      : "app.js",
+    "log_date_format"   : "YYYY-MM-DD HH:mm Z",
+    "merge_logs"    : false,
+    "watch"       : false,
+    "exec_interpreter"  : "node",
+    "exec_mode"     : "fork_mode",
+    "env":
+    {
+      "NODE_ENV"    : "production",
+      "RPC_HOST"    : "localhost",
+      "RPC_PORT"    : "8503",
+      "INSTANCE_NAME"   : "node3",
+      "WS_SERVER"     : "http://localhost:3002",
+      "WS_SECRET"     : "tabequals4",
+    }
+  },
+  {
+    "name"        : "node4",
+    "cwd"         : ".",
+    "script"      : "app.js",
+    "log_date_format"   : "YYYY-MM-DD HH:mm Z",
+    "merge_logs"    : false,
+    "watch"       : false,
+    "exec_interpreter"  : "node",
+    "exec_mode"     : "fork_mode",
+    "env":
+    {
+      "NODE_ENV"    : "production",
+      "RPC_HOST"    : "localhost",
+      "RPC_PORT"    : "8504",
+      "INSTANCE_NAME"   : "node4",
+      "WS_SERVER"     : "http://localhost:3002",
+      "WS_SECRET"     : "tabequals4",
+    }
+  },
+  {
+    "name"        : "node5",
+    "cwd"         : ".",
+    "script"      : "app.js",
+    "log_date_format"   : "YYYY-MM-DD HH:mm Z",
+    "merge_logs"    : false,
+    "watch"       : false,
+    "exec_interpreter"  : "node",
+    "exec_mode"     : "fork_mode",
+    "env":
+    {
+      "NODE_ENV"    : "production",
+      "RPC_HOST"    : "localhost",
+      "RPC_PORT"    : "8505",
+      "INSTANCE_NAME"   : "node5",
+      "WS_SERVER"     : "http://localhost:3002",
+      "WS_SECRET"     : "tabequals4",
+    }
+  },
+]

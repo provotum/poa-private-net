@@ -52,7 +52,7 @@ bash poa-private-net connect node4 node5 &> /dev/null
 sleep 1
 
 printf "${CYAN}[eth-net-intelligence-api]${NORMAL}Starting pm2 to relay all communication: nodes -> eth-netstats.\n"
-(cd eth-net-intelligence-api; pm2 start provotum.json) > /dev/null 2>&1 &
+(cd eth-net-intelligence-api; pm2 start ../provotum.json) > /dev/null 2>&1 &
 
 printf "${CYAN}[eth-netstats]${NORMAL} Starting npm on PORT=3002 with WS_SECRET=tabequals4\n"
 (cd eth-netstats; WS_SECRET=tabequals4 PORT=3002 npm start) > /dev/null 2>&1 &

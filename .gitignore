@@ -2,6 +2,26 @@ build
 .DS_Store
 */**/.DS_Store
 
+node1/console.log
+node1/geth/
+node1/init.log
+
+node2/console.log
+node2/geth/
+node2/init.log
+
+node3/console.log
+node3/geth/
+node3/init.log
+
+node4/console.log
+node4/geth/
+node4/init.log
+
+node5/console.log
+node5/geth/
+node5/init.log
+
 .idea
 
 node_modules
