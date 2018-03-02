@@ -1,0 +1,168 @@
+#!/bin/bash
+
+IDENTITIES=(node1 node2 node3 node4 node5)
+FLAGS='--networkid=15 --preload=identities.js'
+DEV_FLAGS='--bootnodes 'enode://a349b003327c3075b779715a733d5076b986aae0225c48a760cd2b0e768b9654c0179014353ebb34eb0b9e7654caf69ec56d80b1b32705277bad953fb7777585@127.0.0.1:30310' --nodiscover --verbosity=4 --unlock 0 --password ./password.sec --mine'
+
+#geth --datadir node1/ 
+#--syncmode 'full' 
+#--port 30311 
+#--rpc --rpcaddr 'localhost' 
+#--rpcport 8501 
+#--rpcapi 'personal,db,eth,net,web3,txpool,miner' #
+#--bootnodes 'enode://3ec4fef2d726c2c01f16f0a0030f15dd5a81e274067af2b2157cafbf76aa79fa9c0be52c6664e80cc5b08162ede53279bd70ee10d024fe86613b0b09e1106c40@127.0.0.1:30310' 
+#--networkid 1515 --gasprice '1' -unlock '0x87366ef81db496edd0ea2055ca605e8686eec1e6' --password node1/password.txt --mine
+#'self=enode://a349b003327c3075b779715a733d5076b986aae0225c48a760cd2b0e768b9654c0179014353ebb34eb0b9e7654caf69ec56d80b1b32705277bad953fb7777585@127.0.0.1:30310
+
+
+BASE_PORT=30300
+BASE_RPC_PORT=8500
+RED=$(tput setaf 1)
+YELLOW=$(tput setaf 3)
+
+SCRIPT=$(basename "$0")
+
+USAGE="Name:
+    $SCRIPT - Command line utility for creating and running a three node Ethereum private net
+
+    Network comes with five identities at the following addresses:
+
+        node1:	0x84BcC98723D58203741444B3B4D5660054c812E9 
+        node2:	0x32b99e8d3F1A9af00DC742C2069DE3BabA183824
+        node3:	0x556fC148023B893f5d9A18513E33b8Ab0cBa57e7
+        node4:	0x9aAD167D1cABF4FE184FE47c3c30C0f7ae9c2f7c
+        node5:	0x8508453FFB53d5d50a0d3a91e41D5265846ffBa0
+		
+		All nodes initialized with 888888888888888888888888 Wei.
+		
+
+Usage:
+    $SCRIPT command [command options]
+
+Commands:
+    init       Initialize private network from genesis block in genesis.json
+    clean      Destroy all blockchain history, resetting to pristine state
+    start      Start a running ethereum node on the network (example: 'start alice')
+    connect    Connect two running nodes as peers (example: 'connect alice bob')
+    help       Print this help message
+
+Author:cd 
+    Vincent Chu (@vincentchu), Initialized Capital
+    https://github.com/vincentchu/eth-private-net
+"
+
+function exec_on_node() {
+  geth --exec="$2" attach ./$1/geth.ipc
+}
+
+CMD=$1
+case $CMD in
+  init)
+    for IDENTITY in ${IDENTITIES[@]}; do
+      echo "Initializing genesis block for $IDENTITY"
+      geth --datadir=./$IDENTITY $FLAGS init genesis.json 2>> ./$IDENTITY/init.log
+    done
+    ;;
+
+  clean)
+    for IDENTITY in ${IDENTITIES[@]}; do
+      echo "Cleaning geth/ directory from $IDENTITY"
+      rm -r ./$IDENTITY/geth
+    done
+    ;;
+
+  start)
+    IDENTITY=$2
+    if [ -z $IDENTITY ]
+    then
+      echo "No identity specified. Identity must be one of: ${IDENTITIES[*]}"
+      exit -1
+    fi
+
+    case $IDENTITY in
+      node1)
+        OFFSET=1
+        ;;
+
+      node2)
+        OFFSET=2
+        ;;
+
+      node3)
+        OFFSET=3
+        ;;
+
+      node4)
+		OFFSET=4
+      	;;
+		
+      node5)
+        OFFSET=5
+		;;		
+
+    esac
+
+    PORT=$((BASE_PORT + OFFSET))
+    RPC_PORT=$((BASE_RPC_PORT + OFFSET))
+
+    echo "Starting node for $IDENTITY on port: $PORT, RPC port: $RPC_PORT. Console logs sent to ./$IDENTITY/console.log"
+    geth --datadir=./$IDENTITY --identity=$IDENTITY --port=$PORT --rpc --rpccorsdomain='*' --rpcapi admin,net,eth,web3,miner,personal --rpcport=$RPC_PORT $FLAGS $DEV_FLAGS 2>> ./$IDENTITY/console.log
+    ;;
+
+  connect)
+    IDENTITY1=$2
+    IDENTITY2=$3
+
+    ENODE=$(exec_on_node $IDENTITY1 'admin.nodeInfo.enode')
+    CONNECT_JS="admin.addPeer($ENODE)"
+
+    exec_on_node $IDENTITY2 $CONNECT_JS
+    ;;
+
+   startminer)
+	 IDENTITY1=$2
+     START_MINING="miner.start(1)"
+	 exec_on_node $IDENTITY1 $START_MINING
+	;;
+	
+   stopminer)
+	IDENTITY1=$2
+	STOP_MINING="miner.stop()"
+	exec_on_node $IDENTITY1 $STOP_MINING
+    ;;
+
+   teardown)
+      for IDENTITY in ${IDENTITIES[@]}; do
+        printf "${YELLOW}Cleaning chaindata & logs from $IDENTITY \n"
+        rm -r ./$IDENTITY/geth &> /dev/null
+		rm ./$IDENTITY/console.log &> /dev/null
+		rm ./$IDENTITY/init.log &> /dev/null
+		rm ./$IDENTITY/history &> /dev/null
+      done
+    printf "${RED}Gently killing all geth instances \n"
+  	killall -q --signal SIGINT geth &> /dev/null
+  	pkill -INT geth &> /dev/null
+
+    printf "${RED}Gently killing all bootnodes \n"
+    killall -q --signal SIGINT bootnode &> /dev/null
+    pkill -INT bootnode &> /dev/null
+
+  	printf "${RED}Gently killing all pm2 instances \n"
+  	pm2 stop all &> /dev/null
+
+	  printf "${RED}Gently killing all node & npm instances \n"
+  	pkill -INT node &> /dev/null
+  	pkill -INT npm &> /dev/null	 
+	 
+	;;
+
+  help)
+    echo "$USAGE"
+    ;;
+
+  *)
+    echo "Command '$CMD' not recognized!"
+    echo "$USAGE"
+    exit -1
+  ;;
+esac
