@@ -1,0 +1,6 @@
+[submodule "eth-netstats"]
+	path = eth-netstats
+	url = git@github.com:cubedro/eth-netstats.git
+[submodule "eth-net-intelligence-api"]
+	path = eth-net-intelligence-api
+	url = git@github.com:cubedro/eth-net-intelligence-api.git

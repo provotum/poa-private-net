@@ -6,6 +6,7 @@
 #### Written by Christian Killer
 
 GREEN=$(tput setaf 2)
+
 NORMAL=$(tput sgr0)
 YELLOW=$(tput setaf 3)
 CYAN=$(tput setaf 6)

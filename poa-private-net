@@ -4,17 +4,6 @@ IDENTITIES=(node1 node2 node3 node4 node5)
 FLAGS='--networkid=15 --preload=identities.js'
 DEV_FLAGS='--bootnodes 'enode://a349b003327c3075b779715a733d5076b986aae0225c48a760cd2b0e768b9654c0179014353ebb34eb0b9e7654caf69ec56d80b1b32705277bad953fb7777585@127.0.0.1:30310' --nodiscover --verbosity=4 --unlock 0 --password ./password.sec --mine'
 
-#geth --datadir node1/ 
-#--syncmode 'full' 
-#--port 30311 
-#--rpc --rpcaddr 'localhost' 
-#--rpcport 8501 
-#--rpcapi 'personal,db,eth,net,web3,txpool,miner' #
-#--bootnodes 'enode://3ec4fef2d726c2c01f16f0a0030f15dd5a81e274067af2b2157cafbf76aa79fa9c0be52c6664e80cc5b08162ede53279bd70ee10d024fe86613b0b09e1106c40@127.0.0.1:30310' 
-#--networkid 1515 --gasprice '1' -unlock '0x87366ef81db496edd0ea2055ca605e8686eec1e6' --password node1/password.txt --mine
-#'self=enode://a349b003327c3075b779715a733d5076b986aae0225c48a760cd2b0e768b9654c0179014353ebb34eb0b9e7654caf69ec56d80b1b32705277bad953fb7777585@127.0.0.1:30310
-
-
 BASE_PORT=30300
 BASE_RPC_PORT=8500
 RED=$(tput setaf 1)
