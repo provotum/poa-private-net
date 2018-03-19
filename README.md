@@ -16,8 +16,8 @@ Make sure `geth` is installed and in the `$PATH`. `geth` is a golang implementat
 
 Additionally, make sure `npm` is installed.
 
-Make sure you run to get the submodules `eth-netstats` and `eth-net-intelligence-api`.
-`submodule init && git submodule update`
+Make sure you run `git submodule init && git submodule update` to get the submodules `eth-netstats` and `eth-net-intelligence-api`.
+
 
 ```bash
 cd eth-net-intelligence-api
