@@ -1,6 +1,6 @@
-# poa-private-net
+# Proof-of-Authority Private Ethereum Network
 
-A simple proof-of-authority ethereum private network that can be run on your local machine. 
+This repository contains a simple proof-of-authority ethereum private network that can be run on your local machine. 
 This is a customized version of [eth-private-net](github.com/vincentchu/eth-private-net) by Vincent Chu. 
 
 If you plan to deploy a cluster of nodes in the cloud, have a look at the [remote branch of the setup repository](https://github.com/provotum/setup/tree/remote) where you can find a bunch of deployment scripts for remote deployment.
